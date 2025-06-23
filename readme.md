@@ -1,5 +1,30 @@
 ## Docker setup for laravel project
 
+Build the image:
+```bash
+docker build .
+```
+Build the image with tag:
+```bash
+docker build -t <tag_name> .
+```
+List your Docker images:
+```bash
+docker image ls
+```
+Stop the running container:
+```bash
+docker ps
+docker stop <container_id>
+```
+Rebuild the image with no cache to ensure changes apply:
+```bash
+docker build --no-cache -t <tag_name> .
+```
+Mapping port inside the container to port on your host
+```bash
+docker run --rm -p <host-port>:<container-port> <tag_name>
+```
 Run all services with:
 ```bash
 docker compose up
@@ -27,27 +52,6 @@ docker compose ps
 Or
 ```bash
 docker ps
-```
-Build the image with tag
-```bash
-docker build -t <tag_name> .
-```
-List your Docker images:
-```bash
-docker image ls
-```
-Stop the running container:
-```bash
-docker ps
-docker stop <container_id>
-```
-Rebuild the image with no cache to ensure changes apply:
-```bash
-docker build --no-cache -t <tag_name> .
-```
-Mapping port inside the container to port on your host
-```bash
-docker run --rm -p <host-port>:<container-port> <tag_name>
 ```
 Start specific services:
 ```bash
