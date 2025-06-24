@@ -1,5 +1,4 @@
-ARG PHP_VERSION
-
+ARG PHP_VERSION=8.2
 FROM php:${PHP_VERSION}-fpm-alpine
 
 ARG PHP_USER
@@ -12,6 +11,22 @@ RUN sed -i "s/group = www-data/group = ${PHP_GROUP}/g" /usr/local/etc/php-fpm.d/
 
 RUN mkdir -p /var/www/html/public
 
-RUN docker-php-ext-install pdo pdo_mysql
+RUN apk add --no-cache \
+    bash \
+    curl \
+    libzip-dev \
+    zip \
+    unzip \
+    autoconf \
+    g++ \
+    make \
+    gcc \
+    libc-dev \
+    pkgconf \
+    re2c
+
+RUN docker-php-ext-install zip pdo pdo_mysql
+
+RUN pecl install redis && docker-php-ext-enable redis
 
 CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]

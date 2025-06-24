@@ -6,17 +6,20 @@ services:
       args:
         NGINX_USER: ${NGINX_USER}
         NGINX_GROUP: ${NGINX_GROUP}
+    container_name: nginx
     ports:
       - '${NGINX_HTTP_PORT}:80'
       - '${NGINX_HTTPS_PORT}:443'
     volumes:
       - ./src:/var/www/html
     depends_on:
-      - mysql
       - php
+      - mysql
+      - redis
 
   mysql:
     image: mariadb:10.5
+    container_name: mysql
     ports:
       - '${MYSQL_PORT}:3306'
     environment:
@@ -35,6 +38,7 @@ services:
         PHP_VERSION: ${PHP_VERSION}
         PHP_USER: ${PHP_USER}
         PHP_GROUP: ${PHP_GROUP}
+    container_name: php
     volumes:
       - ./src:/var/www/html
 
@@ -46,18 +50,21 @@ services:
         COMPOSER_USER: ${COMPOSER_USER}
         COMPOSER_GROUP: ${COMPOSER_GROUP}
         COMPOSER_VERSION: ${COMPOSER_VERSION}
+    container_name: composer
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
 
   npm:
     image: node:current-alpine
+    container_name: npm
     volumes:
       - ./src:/var/www/html
     entrypoint: ['npm']
     working_dir: /var/www/html
 
   artisan:
+    container_name: artisan
     build:
       context: .
       dockerfile: docker/php/Dockerfile
@@ -74,6 +81,7 @@ services:
 
   vite:
     image: node:current-alpine
+    container_name: vite
     volumes:
       - ./src:/var/www/html
     entrypoint: ['npm', 'run', 'dev']
@@ -84,6 +92,7 @@ services:
   phpmyadmin:
     image: phpmyadmin:latest
     restart: always
+    container_name: phpmyadmin
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
@@ -93,3 +102,9 @@ services:
     depends_on:
       - mysql
 
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - '6379:6379'
+    restart: always
