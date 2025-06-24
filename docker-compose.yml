@@ -80,3 +80,16 @@ services:
     working_dir: /var/www/html
     ports:
       - '5173:5173'
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - '8081:80'
+    depends_on:
+      - mysql
+
