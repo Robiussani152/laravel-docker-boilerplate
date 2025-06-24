@@ -1,11 +1,11 @@
 FROM nginx:stable-alpine
 
-ENV NGINX_USER=laravel
-ENV NGINX_GROUP=laravel
+ARG NGINX_USER
+ARG NGINX_GROUP
 
 RUN mkdir -p /var/www/html/public
 
-ADD nginx/conf/default.conf /etc/nginx/conf.d/default.conf
+ADD docker/nginx/conf/default.conf /etc/nginx/conf.d/default.conf
 
 RUN sed -i "s/user www-data/user ${NGINX_USER}/g" /etc/nginx/nginx.conf
 
