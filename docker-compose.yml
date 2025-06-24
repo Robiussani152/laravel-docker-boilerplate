@@ -71,3 +71,12 @@ services:
     entrypoint: ['php', '/var/www/html/artisan']
     depends_on:
       - mysql
+
+  vite:
+    image: node:current-alpine
+    volumes:
+      - ./src:/var/www/html
+    entrypoint: ['npm', 'run', 'dev']
+    working_dir: /var/www/html
+    ports:
+      - '5173:5173'
