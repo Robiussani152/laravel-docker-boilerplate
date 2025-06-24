@@ -1,7 +1,9 @@
-FROM php:8.2-fpm-alpine
+ARG PHP_VERSION
 
-ENV PHP_GROUP=laravel
-ENV PHP_USER=laravel
+FROM php:${PHP_VERSION}-fpm-alpine
+
+ARG PHP_USER
+ARG PHP_GROUP
 
 RUN adduser -g ${PHP_GROUP} -s /bin/bash -D ${PHP_USER}
 
@@ -12,6 +14,6 @@ RUN mkdir -p /var/www/html/public
 
 RUN docker-php-ext-install pdo pdo_mysql opcache
 
-ADD php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+ADD docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
