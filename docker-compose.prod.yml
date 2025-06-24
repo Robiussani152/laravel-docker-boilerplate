@@ -2,7 +2,7 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: docker/nginx/nginx.prod.dockerfile
+      dockerfile: docker/nginx/Dockerfile
       args:
         NGINX_USER: ${NGINX_USER}
         NGINX_GROUP: ${NGINX_GROUP}
