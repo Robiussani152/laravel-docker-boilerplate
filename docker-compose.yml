@@ -3,8 +3,12 @@ services:
     build:
       context: .
       dockerfile: docker/nginx/Dockerfile
+      args:
+        NGINX_USER: ${NGINX_USER}
+        NGINX_GROUP: ${NGINX_GROUP}
     ports:
-      - 80:80
+      - '${NGINX_HTTP_PORT}:80'
+      - '${NGINX_HTTPS_PORT}:443'
     volumes:
       - ./src:/var/www/html
     depends_on:
@@ -14,12 +18,12 @@ services:
   mysql:
     image: mariadb:10.5
     ports:
-      - 3306:3306
+      - '${MYSQL_PORT}:3306'
     environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
 
@@ -27,6 +31,10 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+        PHP_USER: ${PHP_USER}
+        PHP_GROUP: ${PHP_GROUP}
     volumes:
       - ./src:/var/www/html
 
@@ -34,6 +42,10 @@ services:
     build:
       context: .
       dockerfile: docker/composer/Dockerfile
+      args:
+        COMPOSER_USER: ${COMPOSER_USER}
+        COMPOSER_GROUP: ${COMPOSER_GROUP}
+        COMPOSER_VERSION: ${COMPOSER_VERSION}
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
@@ -44,11 +56,15 @@ services:
       - ./src:/var/www/html
     entrypoint: ['npm']
     working_dir: /var/www/html
-    
+
   artisan:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+        PHP_USER: ${PHP_USER}
+        PHP_GROUP: ${PHP_GROUP}
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html

@@ -1,7 +1,9 @@
-FROM php:8.2-fpm-alpine
+ARG PHP_VERSION
 
-ENV PHP_GROUP=laravel
-ENV PHP_USER=laravel
+FROM php:${PHP_VERSION}-fpm-alpine
+
+ARG PHP_USER
+ARG PHP_GROUP
 
 RUN adduser -g ${PHP_GROUP} -s /bin/bash -D ${PHP_USER}
 
