@@ -39,7 +39,7 @@ docker compose up -d
 ```
 Check config:
 ```bash
-docker compose run rm php -i | grep opcache
+docker compose run --rm php -i | grep opcache
 ```
 Run production setup with:
 ```bash
