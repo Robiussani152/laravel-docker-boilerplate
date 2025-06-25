@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Events\TestBroadcast;
 use Elastic\Elasticsearch\ClientBuilder;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,7 @@ Route::get('/elasticsearch-test', function () {
         ->build();
 
     // Create index if not exists
-    if (!$client->indices()->exists(['index' => 'test'])) {
+    if (! $client->indices()->exists(['index' => 'test'])) {
         $client->indices()->create(['index' => 'test']);
     }
 
@@ -28,10 +29,17 @@ Route::get('/elasticsearch-test', function () {
         'index' => 'test',
         'body' => [
             'query' => [
-                'match_all' => new \stdClass(),
+                'match_all' => new stdClass(),
             ],
         ],
     ]);
 
     return $response;
+});
+
+
+Route::get('/test-broadcast', function () {
+    event(new TestBroadcast());
+
+    return 'Broadcast sent';
 });

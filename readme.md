@@ -70,3 +70,11 @@ docker-compose run --rm composer dump-autoload
 docker-compose run --rm npm install
 docker-compose run --rm npm run dev
 ```
+Inside a container:
+```bash
+docker exec -it php sh
+```
+Build a specific container:
+```bash
+docker-compose build supervisor
+```

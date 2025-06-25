@@ -274,4 +274,13 @@
             <div class="h-14.5 hidden lg:block"></div>
         @endif
     </body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log('Echo is ready', window.Echo);
+            window.Echo.channel('public-updates')
+                .listen('.test-broadcast', (e) => {
+                    console.log('Received:', e.message);
+                });
+        });
+    </script>
 </html>

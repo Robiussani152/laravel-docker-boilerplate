@@ -23,8 +23,11 @@ RUN apk add --no-cache \
     gcc \
     libc-dev \
     pkgconf \
-    re2c
+    re2c \
+    linux-headers \
+    procps
 
+RUN docker-php-ext-install pcntl
 RUN docker-php-ext-install zip pdo pdo_mysql
 
 RUN pecl install redis && docker-php-ext-enable redis

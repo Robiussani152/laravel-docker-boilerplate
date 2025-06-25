@@ -78,6 +78,7 @@ services:
     entrypoint: ['php', '/var/www/html/artisan']
     depends_on:
       - mysql
+      - redis
 
   vite:
     image: node:current-alpine
@@ -125,3 +126,19 @@ services:
       - '9200:9200'
     volumes:
       - ./docker/elasticsearch/data:/usr/share/elasticsearch/data
+
+  supervisor:
+    build:
+      context: .
+      dockerfile: docker/supervisor/Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+    container_name: supervisor
+    restart: unless-stopped
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - mysql
+      - redis
