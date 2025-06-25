@@ -16,6 +16,7 @@ services:
       - php
       - mysql
       - redis
+      - supervisor
 
   mysql:
     image: mariadb:10.5

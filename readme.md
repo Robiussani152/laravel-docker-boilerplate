@@ -78,3 +78,7 @@ Build a specific container:
 ```bash
 docker-compose build supervisor
 ```
+Stop a specific container:
+```bash
+docker-compose stop supervisor
+```
