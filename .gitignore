@@ -1,4 +1,5 @@
 docker/mysql/data/*
 docker/elasticsearch/data/*
+docker/nginx/certs/*
 .env
 **/.DS_Store
