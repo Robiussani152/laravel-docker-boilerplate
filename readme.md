@@ -82,3 +82,8 @@ Stop a specific container:
 ```bash
 docker-compose stop supervisor
 ```
+Make ssl certs using `mkcert` [repo link](https://github.com/FiloSottile/mkcert)
+```bash
+mkcert laravel-docker.test
+mkcert ws.laravel-docker.test
+```
